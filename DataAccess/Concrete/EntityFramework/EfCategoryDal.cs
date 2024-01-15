@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,12 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCategoryDal
     {
+        public List<Category> GetAll()
+        {
+            using (CafeContext context = new CafeContext())
+            {
+                return context.Set<Category>().ToList();
+            }
+        }
     }
 }

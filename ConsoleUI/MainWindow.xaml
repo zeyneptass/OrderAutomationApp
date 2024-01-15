@@ -10,43 +10,86 @@
         <TabControl>
             <!-- Add Product TabItem -->
             <TabItem Header="Add Product" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <StackPanel>
+                    <GroupBox Height="100" Header="List of Products" Margin="250,0,48,0" Width="300">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13*"/>
+                                <ColumnDefinition Width="83*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Product Name: " FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="28" Grid.ColumnSpan="2"/>
+                            <TextBox x:Name="listOfProducs" HorizontalAlignment="Right" Width="172" Height="28" VerticalAlignment="Top" Margin="0,0,10,0" Grid.Column="1"  />
+                            <Button Content="List of Product" HorizontalAlignment="Left" Margin="67,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.Column="1" Click="ListOfProductsButton_Click" />
 
-                    <Label Content="Product Name:" Grid.Row="0" Margin="5"/>
-                    <TextBox x:Name="ProductNameTextBox" Grid.Row="0" Margin="101,5,541,5"/>
+                        </Grid>
 
-                    <Label Content="Description:" Grid.Row="1" Margin="5"/>
-                    <TextBox x:Name="DescriptionTextBox" Grid.Row="1" Margin="101,5,541,5"/>
 
-                    <Label Content="Unit Price:" Grid.Row="2" Margin="5"/>
-                    <TextBox x:Name="UnitPriceTextBox" Grid.Row="2" Margin="101,5,541,5"/>
+                    </GroupBox>
+                    <GroupBox Header="Add Product" Height="240" Margin="5,-100,487,0" Width="310">
+                        <Grid Height="232" Margin="0,0,-2,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="38*"/>
+                                <ColumnDefinition Width="75*"/>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="171*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Label Content="Units In Stock:" Grid.Row="3" Margin="5"/>
-                    <TextBox x:Name="UnitsInStockTextBox" Grid.Row="3" Margin="101,5,541,5"/>
+                            <Label Content="Product Name:" FontWeight="Bold"  Grid.Row="0" Margin="5,5,19,5" Grid.ColumnSpan="2"/>
+                            <TextBox x:Name="ProductNameTextBox" Grid.Row="0" Margin="64,5,20,5" Grid.ColumnSpan="3" Grid.Column="1"/>
 
-                    <Label Content="Category:" Grid.Row="4" Margin="5"/>
-                    <ComboBox x:Name="CategoryComboBox" Grid.Row="4" Margin="101,5,541,5"/>
+                            <Label Content="Description:" FontWeight="Bold" Grid.Row="1" Margin="5,5,5,5" Grid.ColumnSpan="4"/>
+                            <TextBox x:Name="DescriptionTextBox" Grid.Row="1" Margin="64,5,20,5" Grid.ColumnSpan="3" Grid.Column="1"/>
 
-                    <Button Content="Add Product" Grid.Row="5" Margin="158,5,541,5" Click="AddProductButton_Click"/>
-                </Grid>
+                            <Label Content="Unit Price:" FontWeight="Bold" Grid.Row="2" Margin="5,5,5,5" Grid.ColumnSpan="4"/>
+                            <TextBox x:Name="UnitPriceTextBox" Grid.Row="2" Margin="64,5,20,5" Grid.ColumnSpan="3" Grid.Column="1"/>
+
+                            <Label Content="Units In Stock:" FontWeight="Bold" Grid.Row="3" Margin="5,5,5,5" Grid.ColumnSpan="4"/>
+                            <TextBox x:Name="UnitsInStockTextBox" Grid.Row="3" Margin="64,5,20,5" Grid.ColumnSpan="3" Grid.Column="1"/>
+
+                            <Label Content="Category:" FontWeight="Bold" Grid.Row="4" Margin="5,5,5,5" Grid.ColumnSpan="4"/>
+                            <ComboBox x:Name="CategoryComboBox" Grid.Row="4" Margin="64,5,20,5" Grid.ColumnSpan="3" Grid.Column="1"/>
+
+                            <Button Content="Add Product" Grid.Row="5" Margin="64,5,20,0" Click="AddProductButton_Click" Grid.Column="1" Height="29" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Delete Product" Height="100" Width="300" Margin="205,-150,2,20" >
+                        <Grid>
+                            <Label Content="Product Name: " FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="28"/>
+
+                            <TextBox x:Name="deletingProductName" HorizontalAlignment="Right" Width="172" Height="28" VerticalAlignment="Top" Margin="0,0,10,0" Grid.ColumnSpan="2"  />
+                            <Button Content="Delete Product" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.ColumnSpan="2" />
+
+                        </Grid>
+
+                    </GroupBox>
+                    <GroupBox Header="List of Products" Margin="5,0,10,0" Height="200">
+                        <DataGrid x:Name="listOfProduct" d:ItemsSource="{d:SampleData ItemCount=6}" Margin="314,430,72,24">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}"/>
+                                <DataGridTextColumn Header="Category ID" Binding="{Binding CategoryId}"/>
+                                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}"/>
+                                <DataGridTextColumn Header="Units in Stock" Binding="{Binding UnitsInStock}"/>
+                                <DataGridTextColumn Header="Created at" Binding="{Binding CreatedAt}"/>
+                                <DataGridTextColumn Header="Updated at" Binding="{Binding UpdatedAt}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
-
 
             <!-- Add Order TabItem -->
             <TabItem Header="Add Order" HorizontalAlignment="Stretch">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -138,7 +181,7 @@
 
 
             <!-- View Reservation TabItem -->
-            <TabItem Header="View Reservation" HorizontalAlignment="Stretch">
+            <TabItem Header="View Reservation" Margin="-1,-2,-3,0">
                 <ItemsControl x:Name="masaItemsControl" ItemsSource="{Binding MasaListesi}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -162,10 +205,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </TabItem>
-
-
-
-
         </TabControl>
     </Grid>
 </Window>
