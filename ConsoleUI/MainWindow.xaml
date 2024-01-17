@@ -14,12 +14,13 @@
                     <GroupBox Height="100" Header="List of Products" Margin="250,0,48,0" Width="300">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="13*"/>
-                                <ColumnDefinition Width="83*"/>
+                                <ColumnDefinition Width="39*"/>
+                                <ColumnDefinition Width="94*"/>
+                                <ColumnDefinition Width="155*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Product Name: " FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="28" Grid.ColumnSpan="2"/>
-                            <TextBox x:Name="listOfProducs" HorizontalAlignment="Right" Width="172" Height="28" VerticalAlignment="Top" Margin="0,0,10,0" Grid.Column="1"  />
-                            <Button Content="List of Product" HorizontalAlignment="Left" Margin="67,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.Column="1" Click="ListOfProductsButton_Click" />
+                            <TextBox x:Name="listProductName" HorizontalAlignment="Right" Width="172" Height="28" VerticalAlignment="Top" Margin="0,0,10,0" Grid.Column="1" Grid.ColumnSpan="2"  />
+                            <Button Content="List of Product" HorizontalAlignment="Left" Margin="67,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.Column="1" Click="ListOfProductsButton_Click" Grid.ColumnSpan="2" />
 
                         </Grid>
 
@@ -65,90 +66,140 @@
                             <Label Content="Product Name: " FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="93" Height="28"/>
 
                             <TextBox x:Name="deletingProductName" HorizontalAlignment="Right" Width="172" Height="28" VerticalAlignment="Top" Margin="0,0,10,0" Grid.ColumnSpan="2"  />
-                            <Button Content="Delete Product" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.ColumnSpan="2" />
+                            <Button Content="Delete Product" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Height="26" Width="172" Grid.ColumnSpan="2" Click="Delete_Product_Button_Click" />
 
                         </Grid>
 
                     </GroupBox>
                     <GroupBox Header="List of Products" Margin="5,0,10,0" Height="200">
-                        <DataGrid x:Name="listOfProduct" d:ItemsSource="{d:SampleData ItemCount=6}" Margin="314,430,72,24">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}"/>
-                                <DataGridTextColumn Header="Category ID" Binding="{Binding CategoryId}"/>
-                                <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}"/>
-                                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}"/>
-                                <DataGridTextColumn Header="Units in Stock" Binding="{Binding UnitsInStock}"/>
-                                <DataGridTextColumn Header="Created at" Binding="{Binding CreatedAt}"/>
-                                <DataGridTextColumn Header="Updated at" Binding="{Binding UpdatedAt}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListView Grid.Row="1" x:Name="listOfProduct" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="126" Header="Product Name" DisplayMemberBinding ="{Binding ProductName}" />
+                                    <GridViewColumn Width="126" Header="Description" DisplayMemberBinding ="{Binding Description}"/>
+                                    <GridViewColumn Width="126" Header="Unit Price" DisplayMemberBinding ="{Binding UnitPrice}"/>
+                                    <GridViewColumn Width="126" Header="Units in Stock" DisplayMemberBinding="{Binding UnitsInStock}" />
+                                    <GridViewColumn Width="126" Header="Created at" DisplayMemberBinding="{Binding CreatedAt}"/>
+                                    <GridViewColumn Width="126" Header="Updated at" DisplayMemberBinding="{Binding UpdatedAt}" />
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
+
                     </GroupBox>
                 </StackPanel>
             </TabItem>
 
             <!-- Add Order TabItem -->
-            <TabItem Header="Add Order" HorizontalAlignment="Stretch">
+            <TabItem Header="Add Order">
+                <StackPanel>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                    <GroupBox Header="Select a product" Width="552" Height="149" Margin="240,10,-8,0">
+                        <ListView Grid.Row="1" x:Name="allProductsForOrder" SelectionMode="Single"  
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="90" Header="Product Name" DisplayMemberBinding ="{Binding ProductName}" />
+                                    <GridViewColumn Width="90" Header="Description" DisplayMemberBinding ="{Binding Description}"/>
+                                    <GridViewColumn Width="90" Header="Unit Price" DisplayMemberBinding ="{Binding UnitPrice}"/>
+                                    <GridViewColumn Width="90" Header="Units in Stock" DisplayMemberBinding="{Binding UnitsInStock}" />
+                                    <GridViewColumn Width="90" Header="Created at" DisplayMemberBinding="{Binding CreatedAt}"/>
+                                    <GridViewColumn Width="90" Header="Updated at" DisplayMemberBinding="{Binding UpdatedAt}" />
+                                </GridView>
+                            </ListView.View>
 
-                    <Label Content="Product ID:" Grid.Row="0" Margin="5"/>
-                    <TextBox x:Name="ProductIdTextBox" Grid.Row="0" Margin="101,5,541,5"/>
+                        </ListView>
+                    </GroupBox>
+                    <GroupBox Height="189" Header="List of Products" Margin="-555,-150,-8,0" Width="230">
 
-                    <Label Content="Table ID:" Grid.Row="1" Margin="5"/>
-                    <TextBox x:Name="TableIdTextBox" Grid.Row="1" Margin="101,5,541,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="44*"/>
+                                <ColumnDefinition Width="63*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Label Content="Quantity:" Grid.Row="2" Margin="5"/>
-                    <TextBox x:Name="QuantityTextBox" Grid.Row="2" Margin="101,5,541,5"/>
+                            <Label Content="Product Name:" Grid.Row="0" />
+                            <TextBox x:Name="ProductName_TextBox" Grid.Row="0"  Grid.Column="1" />
 
-                    <Label Content="Total Price:" Grid.Row="3" Margin="5"/>
-                    <TextBox x:Name="TotalPriceTextBox" Grid.Row="3" Margin="101,5,541,5"/>
+                            <Label Content="Table ID:" Grid.Row="1" />
+                            <TextBox x:Name="TableIdTextBox" Grid.Row="1"  Grid.Column="1" />
 
-                    <Label Content="Order Date:" Grid.Row="4" Margin="5"/>
-                    <DatePicker x:Name="OrderDatePicker" Grid.Row="4" Margin="101,5,541,5"/>
+                            <Label Content="Quantity:" Grid.Row="2"/>
+                            <TextBox x:Name="QuantityTextBox" Grid.Row="2" Grid.Column="1" />
 
-                    <Button Content="Add Order" Grid.Row="5" Margin="101,5,541,5" Click="AddOrderButton_Click"/>
-                </Grid>
+                            <Label Content="Total Price:" Grid.Row="3" />
+                            <TextBox x:Name="TotalPriceTextBox" Grid.Row="3" Grid.Column="1" />
+
+                            <Label Content="Order Date:" Grid.Row="4" />
+                            <DatePicker x:Name="OrderDatePicker" Grid.Row="4" Grid.Column="1" />
+
+                            <Button Content="Add Order" Grid.Row="5"  Click="AddOrderButton_Click" Grid.Column="1"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Orders" Margin="-255,0,-8,0" Height="173" Width="527">
+                        <ListView x:Name="listOfOrder" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="154" d:ItemsSource="{d:SampleData ItemCount=9}" Margin="0,0,-2,0" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="100" Header="Product Name" DisplayMemberBinding ="{Binding ProductName}"/>
+                                    <GridViewColumn Width="100" Header="Table ID" DisplayMemberBinding ="{Binding TableId}"/>
+                                    <GridViewColumn Width="100" Header="Quantity" DisplayMemberBinding ="{Binding Quantity}"/>
+                                    <GridViewColumn Width="100" Header="Total Price" DisplayMemberBinding ="{Binding TotalPrice}"/>
+                                    <GridViewColumn Width="100" Header="Order Date" DisplayMemberBinding ="{Binding OrderDate}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
 
-            <!-- Make a Reservation TabItem -->
-            <TabItem Header="Make a Reservation" HorizontalAlignment="Stretch">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <TabItem Header="Make a Reservation" HorizontalAlignment="Center" Height="22" VerticalAlignment="Top">
+                <StackPanel>
+                    <GroupBox Width="793" Height="193">
+                        <Grid Margin="0,0,-2,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Label Content="Reservation ID:" Grid.Row="0" Margin="5"/>
-                    <TextBox x:Name="ReservationIdTextBox" Grid.Row="0" Margin="111,5,541,5"/>
+                            <Label Content="Table ID:" Grid.Row="1" Margin="5,5,541,5"/>
+                            <ComboBox x:Name="TableIdComboBox" Grid.Row="1" Margin="111,7,541,3"/>
 
-                    <Label Content="Table ID:" Grid.Row="1" Margin="5"/>
-                    <TextBox x:Name="TableNumberTextBox" Grid.Row="1" Margin="111,5,541,5"/>
+                            <Label Content="Customer Name:" Grid.Row="2" Margin="5,5,541,5"/>
+                            <TextBox x:Name="CustomerNameTextBox" Grid.Row="2" Margin="111,5,541,5"/>
 
-                    <Label Content="Customer ID:" Grid.Row="2" Margin="5"/>
-                    <TextBox x:Name="CustomerIdTextBox" Grid.Row="2" Margin="111,5,541,5"/>
 
-                    <Label Content="Reservation Date:" Grid.Row="3" Margin="5"/>
-                    <DatePicker x:Name="ReservationDatePicker" Grid.Row="3" Margin="111,5,541,5"/>
+                            <Label Content="Reservation Date:" Grid.Row="2" Margin="5,44,541,-34"/>
+                            <DatePicker x:Name="ReservationDatePicker" Grid.Row="2" Margin="111,44,541,-34"/>
 
-                    <Button Content="Make Reservation" Grid.Row="3" Margin="111,36,541,-26" Click="MakeReservationButton_Click"/>
-                </Grid>
+                            <Button Content="Make a reservation" Grid.Row="2" Margin="111,84,541,-74" Click="MakeReservationButton_Click"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="List of the Reservation">
+                        <ListView x:Name="listOfReservation" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="154" d:ItemsSource="{d:SampleData ItemCount=9}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="100" Header="Table ID" DisplayMemberBinding ="{Binding TableId}"/>
+                                    <GridViewColumn Width="100" Header="Customer Name" DisplayMemberBinding ="{Binding CustomerName}"/>
+
+                                    <GridViewColumn Width="100" Header="Reservation Date" DisplayMemberBinding ="{Binding ReservationDate}"/>
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
+                    </GroupBox>
+                </StackPanel>
             </TabItem>
 
-
-
-
-            <!-- Payment TabItem -->
             <TabItem Header="Payment" HorizontalAlignment="Stretch">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -194,9 +245,12 @@
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Grid>
-                                            <Image Source="{Binding MasaResimYolu}" Stretch="Fill"/>
-                                            <TextBlock Text="{Binding MasaNumarasi}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" FontSize="16"/>
+                                            <Image Source="{Binding TableUrl}"  Stretch="Fill"/>
+                                            <TextBlock Text="{Binding TableNumber}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" FontSize="16"/>
                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <Button Content="Masa 1" Click="MasaButton_Click" Tag="1"/>
+                                           
+                                          
                                         </Grid>
                                     </ControlTemplate>
                                 </Button.Template>
