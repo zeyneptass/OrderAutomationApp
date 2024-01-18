@@ -12,11 +12,18 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal; 
+        IProductCategoryService _productCategoryService;
 
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
         }
+        public ProductManager(IProductDal productDal, IProductCategoryService productCategoryService)
+        {
+            _productDal = productDal;
+            _productCategoryService = productCategoryService;
+        }
+
 
         public List<Product> GetAll()
         {
@@ -51,5 +58,21 @@ namespace Business.Concrete
         {
             return _productDal.GetAll(p => p.ProductName.Contains(productName)).ToList();
         }
+        public List<Product> GetAllByCategoryName(string categoryName)
+        {
+            // Kategori ismine göre ürünleri çekmek için kategori servisini kullanabilirsiniz
+            var category = this._productCategoryService.GetAllProductCategories().FirstOrDefault(c => c.CategoryName == categoryName);
+
+            if (_productCategoryService != null)
+            {
+                // Eğer kategori bulunduysa, o kategoriye ait ürünleri çek
+                return _productDal.GetAll(p => p.CategoryId == category.CategoryId);
+            }
+
+            // Eğer kategori bulunamadıysa, boş bir liste döndür
+            return new List<Product>();
+        }
+
+      
     }
 }

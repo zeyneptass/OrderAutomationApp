@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using Business;
+using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -32,91 +33,117 @@ namespace ConsoleUI
         {
             InitializeComponent();
 
-        
+            GetCategoriesForComboBox();
 
-            List<Table> MasaListesi = new List<Table>();
+
+
+            List<TableInfo> MasaListesi = new List<TableInfo>();
 
             // Örnek masa verilerini ekleyin (Bu kısmı projenize uygun şekilde güncelleyin)
             for (int i = 1; i <= 15; i++)
             {
-                MasaListesi.Add(new Table { TableNumber = i, TableUrl = @"C:\Users\zeyne\OneDrive\Masaüstü\OOPLectures\CafeAutomationApp\ConsoleUI\Icon\chair.png" });
+                MasaListesi.Add(new TableInfo { TableNumber = i, TableUrl = @"C:\Users\zeyne\OneDrive\Masaüstü\OOPLectures\CafeAutomationApp\ConsoleUI\Icon\chair.png" });
             }
 
-            // XAML içindeki ItemsControl'a MasaListesi'ni bağla
+            //XAML içindeki ItemsControl'a MasaListesi'ni bağla
             masaItemsControl.ItemsSource = MasaListesi;
 
-            // EfCategoryDal'ı oluştur
-            _categoryDal = new EfCategoryDal();
-
-            // Kategori ComboBox'ını doldur
-            CategoryComboBox.ItemsSource = GetCategories();
-            CategoryComboBox.DisplayMemberPath = "CategoryName"; // Kategori ismini göstermek için
-
+          
             // ComboBox'a değerleri ekleyin
             string[] tableIdValues = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12","13","14","15" };
             TableIdComboBox.ItemsSource = tableIdValues;
 
             _reservationService = new ReservationManager(new EfReservationDal());
         }
-
-        private void Table_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (sender is FrameworkElement element && element.Tag != null)
-            {
-                int masaId = Convert.ToInt32(element.Tag);
-
-                // Masa ID ile rezervasyon bilgilerini al
-                List<Reservation> reservationDetails = _reservationService.GetDetails("MüşteriAdı", masaId, DateTime.Now);
-
-                // Rezervasyon bilgilerini kullanıcıya göster
-                if (reservationDetails != null && reservationDetails.Count > 0)
-                {
-                    string message = "Rezervasyon Bilgileri:\n";
-                    foreach (var reservation in reservationDetails)
-                    {
-                        message += $"Tarih: {reservation.ReservationDate}, Müşteri: {reservation.CustomerName}\n";
-                        // Diğer rezervasyon bilgilerini buraya ekleyebilirsiniz.
-                    }
-
-                    MessageBox.Show(message, "Masa Bilgileri", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Seçili masa için rezervasyon bulunamadı.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-            }
-        } 
-
-
-
-        private List<Category> GetCategories()
-        {
-            // Kategorileri çek
-            return _categoryDal.GetAll();
-        }
-
-
-
-        public class Table
+        public class TableInfo
         {
             public int TableNumber { get; set; }
             public string TableUrl { get; set; }
         }
 
-        // Masa butonlarına tıklandığında çalışacak olay işleyicisi
-        private void MasaButton_Click(object sender, RoutedEventArgs e)
+        private void GetCategoriesForComboBox()
         {
-            if (sender is Button button && button.DataContext is Table secilenMasa)
+            // ProductCategoryManager'ı oluştur
+            IProductCategoryService productCategoryService = new ProductCategoryManager(new EfCategoryDal());
+
+            // Tüm kategorileri çek
+            List<Category> categories = productCategoryService.GetAllProductCategories();
+
+            // Kategori ComboBox'ını doldur
+            CategoryComboBox.ItemsSource = categories;
+            CategoryComboBox.DisplayMemberPath = "CategoryName"; // Kategori ismini göstermek için
+
+            AllCatgoriesForListOfProduct.ItemsSource = categories;
+            AllCatgoriesForListOfProduct.DisplayMemberPath = "CategoryName";
+        }
+
+
+
+
+        //public class Table
+        //{
+        //    public int TableNumber { get; set; }
+        //    public string TableUrl { get; set; }
+        //}
+
+        //// Masa butonlarına tıklandığında çalışacak olay işleyicisi
+        //private void TableButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    if (sender is Button button && button.DataContext is Table secilenMasa)
+        //    {
+        //        // Seçilen masa ile ilgili bilgileri göster
+        //        MessageBox.Show($"Rezervasyon ID: {secilenMasa.TableNumber}\nMasa ID: {secilenMasa.TableNumber}\nMüşteri ID: {secilenMasa.TableNumber}\nRezervasyon Tarihi: {DateTime.Now}");
+        //    }
+        //}
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
             {
-                // Seçilen masa ile ilgili bilgileri göster
-                MessageBox.Show($"Rezervasyon ID: {secilenMasa.TableNumber}\nMasa ID: {secilenMasa.TableNumber}\nMüşteri ID: {secilenMasa.TableNumber}\nRezervasyon Tarihi: {DateTime.Now}");
+                // Image'in Tag özelliğinden masa numarasını al
+                int masaNumarasi = Convert.ToInt32((sender as Image)?.Tag);
+
+                // TableManager'ı kullanarak masaları çek
+                TableManager tableManager = new TableManager(new EfTableDal()); // Tablo verilerini çekmek için uygun bir TableDal ekleyin
+
+                // İlgili masa numarasına ait masaları al
+                List<Entities.Concrete.Table> masalar = tableManager.GetByTableId(masaNumarasi);
+
+                // Eğer masa varsa işlemleri gerçekleştir
+                if (masalar.Any())
+                {
+                    // İlgili masa numarasına ait bilgileri kullanarak MessageBox göster
+                    Entities.Concrete.Table relatedTable = masalar.FirstOrDefault();
+                    string message = $"Masa: {relatedTable?.TableNumber}, Resim: {relatedTable?.TableUrl}\n";
+
+                    // İlgili masa numarasına ait rezervasyonları çek
+                    ReservationManager reservationManager = new ReservationManager(new EfReservationDal());
+                    List<Reservation> masaRezervasyonlari = reservationManager.GetDetails("", masaNumarasi, DateTime.Now);
+
+                    foreach (var rezervasyon in masaRezervasyonlari)
+                    {
+                        message += $"Müşteri: {rezervasyon.CustomerName}, Tarih: {rezervasyon.ReservationDate}\n";
+                    }
+
+                    MessageBox.Show(message);
+                }
+                else
+                {
+                    // Eğer masa yoksa kullanıcıya bir mesaj göster
+                    MessageBox.Show("Bu masa için bilgi bulunmamaktadır.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Hata yönetimini gerçekleştirin
+                MessageBox.Show($"Hata oluştu: {ex.Message}");
             }
         }
 
         private void AddOrderButton_Click(object sender, RoutedEventArgs e)
         {
             var productService = new ProductManager(new EfProductDal());
+
 
             string produtName = ProductName_TextBox.Text;
             int tableId = Convert.ToInt16(TableIdTextBox.Text);
@@ -129,6 +156,7 @@ namespace ConsoleUI
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
+
             var productService = new ProductManager(new EfProductDal());
             // Get values from UI controls
             string productName = ProductNameTextBox.Text;
@@ -162,6 +190,7 @@ namespace ConsoleUI
         public void RefreshProductList()
         {
             var productService = new ProductManager(new EfProductDal());
+
             // Tüm ürünleri çek ve DataGrid'i güncelle
             var allProducts = productService.GetAll();
             listOfProduct.ItemsSource = allProducts;
@@ -179,6 +208,7 @@ namespace ConsoleUI
         private void Delete_Product_Button_Click(object sender, RoutedEventArgs e)
         {
             var productService = new ProductManager(new EfProductDal());
+
             string productNameToDelete = deletingProductName.Text;
             var productToDelete = productService.GetByName(productNameToDelete).FirstOrDefault();
 
@@ -202,18 +232,29 @@ namespace ConsoleUI
 
         private void ListOfProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            var productService = new ProductManager(new EfProductDal());
 
-            // Get the product name from UI control
-            string productName = listProductName.Text;
+            //var productService = new ProductManager(new EfProductDal());
 
-            // Use the GetByName method to get products by name
-            var products = productService.GetByName(productName);
-            listOfProduct.ItemsSource = products;
 
-            // Refresh the DataGrid
-            listOfProduct.Items.Refresh();
+            //// Get the product name and category name from UI controls
+            //string productName = listProductName.Text;
+            //string categoryName = AllCatgoriesForListOfProduct.Text;
+
+            //// Use the GetByName method to get products by name
+            //var products = productService.GetByName(productName);
+            //listOfProduct.ItemsSource = products;
+
+            //// Get category ID by name
+            //int categoryId = GetAllByCategoryName(categoryName);
+
+            //// Use GetAllByCategoryId method to get products by category ID
+            //var categoryProducts = productService.GetAllByCategoryId(categoryId);
+            //listOfProduct.ItemsSource = categoryProducts;
+
+            //// Refresh the DataGrid
+            //listOfProduct.Items.Refresh();
         }
+
 
         private void MakeReservationButton_Click(object sender, RoutedEventArgs e)
         {
@@ -278,6 +319,11 @@ namespace ConsoleUI
 
         }
 
- 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+    
     }
 }

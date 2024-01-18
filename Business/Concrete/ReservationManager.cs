@@ -38,6 +38,11 @@ namespace Business.Concrete
             return _reservationDal.GetAll(r => r.CustomerName == customerName).ToList();
         }
 
+        public List<Reservation> GetByTableId(int tableId)
+        {
+            return (_reservationDal.GetAll(r => r.TableId == tableId).ToList());
+        }
+
         public List<Reservation> GetDetails(string customerName, int tableId, DateTime date)
         {
             return _reservationDal.GetAll(r => r.CustomerName == customerName && r.TableId == tableId &&

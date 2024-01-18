@@ -12,6 +12,7 @@ namespace Business.Abstract
         List<Reservation> GetAll();
         List<Reservation> GetByCustomerName(string customerName);
         List<Reservation> GetDetails(string customerName,int tableId,DateTime date);
+        List<Reservation> GetByTableId(int  tableId);
 
         void Add(Reservation reservation);
         void Update(Reservation reservation);

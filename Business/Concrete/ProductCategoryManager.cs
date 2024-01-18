@@ -18,6 +18,10 @@ namespace Business.Concrete
             _categoryDal = categoryDal;
         }
 
+        public List<Category> GetAllProductCategories()
+        {
+            return _categoryDal.GetAll();
+        }
 
         public Category GetProductCategoryById(int categoryId)
         {

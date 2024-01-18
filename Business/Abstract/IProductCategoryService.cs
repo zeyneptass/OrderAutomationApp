@@ -10,6 +10,6 @@ namespace Business
     public interface IProductCategoryService
     {
         Category GetProductCategoryById(int categoryId);
-        //List<ProductCategory> GetAllBookCategories();
+        List<Category> GetAllProductCategories();
     }
 }
