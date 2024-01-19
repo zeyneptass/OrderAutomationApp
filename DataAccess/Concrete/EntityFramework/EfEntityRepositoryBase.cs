@@ -59,6 +59,14 @@ namespace DataAccess.Concrete.EntityFramework
                 context.SaveChanges();
             }
         }
+
+        public List<T> GetDetails(Expression<Func<T, bool>> filter)
+        {
+            using (CafeContext context = new CafeContext())
+            {
+                return context.Set<T>().Where(filter).ToList();
+            }
+        }
     }
 
 }

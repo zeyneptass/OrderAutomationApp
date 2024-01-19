@@ -75,7 +75,7 @@
                         </Grid>
 
                     </GroupBox>
-                    <GroupBox Header="List of Products" Margin="5,0,10,0" Height="200">
+                    <GroupBox Header="List of Products" Margin="5,0,10,0" Height="168">
                         <ListView Grid.Row="1" x:Name="listOfProduct" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" >
                             <ListView.View>
                                 <GridView>
@@ -95,12 +95,12 @@
             </TabItem>
 
             <!-- Add Order TabItem -->
-            <TabItem Header="Add Order"  Height="22">
+            <TabItem Header="Add Order" MouseDown="AddOrderTabItem_Selected" Height="22" VerticalAlignment="Bottom">
                 <StackPanel>
 
                     <GroupBox Header="Select a product" Width="552" Height="149" Margin="240,10,-8,0">
                         <ListView Grid.Row="1" x:Name="allProductsForOrder" SelectionMode="Single"  
-                                  ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" >
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" SelectionChanged=" AllProductsForOrder_SelectionChanged" >
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="90" Header="Product Name" DisplayMemberBinding ="{Binding ProductName}" />
@@ -139,29 +139,58 @@
                             <Label Content="Quantity:" Grid.Row="2"/>
                             <TextBox x:Name="QuantityTextBox" Grid.Row="2" Grid.Column="1" />
 
-                            <Label Content="Total Price:" Grid.Row="3" />
-                            <TextBox x:Name="TotalPriceTextBox" Grid.Row="3" Grid.Column="1" />
+                            <!--<Label Content="Total Price:" Grid.Row="3" />
+                            <TextBox x:Name="TotalPriceTextBox" Grid.Row="3" Grid.Column="1" />-->
 
                             <Label Content="Order Date:" Grid.Row="4" />
                             <DatePicker x:Name="OrderDatePicker" Grid.Row="4" Grid.Column="1" />
 
-                            <Button Content="Add Order" Grid.Row="5"  Grid.Column="1"/>
+                            <Button Content="Add Order" Grid.Row="5"  Grid.Column="1" Click="AddOrderButton_Click" Margin="0,10,0,-44"/>
                         </Grid>
                     </GroupBox>
-
-                    <GroupBox Header="Orders" Margin="-255,0,-8,0" Height="173" Width="527">
-                        <ListView x:Name="listOfOrder" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="154" d:ItemsSource="{d:SampleData ItemCount=9}" Margin="0,0,-2,0" >
+                    <GroupBox Header="Orders" Margin="-150,0,-8,0" Height="205" Width="631">
+                        <ListView x:Name="listOfOrder" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="154" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="0,0,-2,0" >
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Width="100" Header="Product Name" DisplayMemberBinding ="{Binding ProductName}"/>
-                                    <GridViewColumn Width="100" Header="Table ID" DisplayMemberBinding ="{Binding TableId}"/>
-                                    <GridViewColumn Width="100" Header="Quantity" DisplayMemberBinding ="{Binding Quantity}"/>
-                                    <GridViewColumn Width="100" Header="Total Price" DisplayMemberBinding ="{Binding TotalPrice}"/>
-                                    <GridViewColumn Width="100" Header="Order Date" DisplayMemberBinding ="{Binding OrderDate}"/>
+                                    <GridViewColumn Width="100" Header="Order Id" DisplayMemberBinding="{Binding OrderId}"/>
+                                    <GridViewColumn Width="200" Header="Product Names">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding ProductName}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="100" Header="Table ID" DisplayMemberBinding="{Binding TableId}"/>
+                                    <GridViewColumn Width="100" Header="Quantity" DisplayMemberBinding="{Binding Quantity}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding Quantity}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+
+
+                                    <GridViewColumn Width="100" Header="Total Price" DisplayMemberBinding="{Binding TotalPrice}"/>
+                                    <GridViewColumn Width="100" Header="Order Date" DisplayMemberBinding="{Binding OrderDate}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
                     </GroupBox>
+
                 </StackPanel>
             </TabItem>
 
@@ -203,38 +232,6 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-
-            <TabItem Header="Payment"  Height="22" HorizontalAlignment="Stretch">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Content="Payment ID:" Grid.Row="0" Margin="5"/>
-                    <TextBox x:Name="PaymentIdTextBox" Grid.Row="0" Margin="101,5,541,5"/>
-
-                    <Label Content="Order ID:" Grid.Row="1" Margin="5"/>
-                    <TextBox x:Name="OrderIdTextBox" Grid.Row="1" Margin="101,5,541,5"/>
-
-                    <Label Content="Amount Paid:" Grid.Row="2" Margin="5"/>
-                    <TextBox x:Name="AmountPaidTextBox" Grid.Row="2" Margin="101,5,541,5"/>
-
-                    <Label Content="Payment Date:" Grid.Row="3" Margin="5"/>
-                    <DatePicker x:Name="PaymentDatePicker" Grid.Row="3" Margin="101,5,541,5"/>
-
-                    <Button Content="Process Payment" Grid.Row="3" Margin="101,36,541,-26" Click="ProcessPaymentButton_Click"/>
-                </Grid>
-            </TabItem>
-
-            <!-- View Orders TabItem -->
-            <TabItem Header="View Orders"  Height="22" HorizontalAlignment="Stretch">
-                <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="True" />
-            </TabItem>
-
-
             <!-- View Reservation TabItem -->
             <TabItem Header="View Reservation" Margin="-1,-2,-3,0" Height="22" VerticalAlignment="Top">
                 <ItemsControl x:Name="masaItemsControl" ItemsSource="{Binding MasaListesi}">
@@ -257,7 +254,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"   Tag="2">
+                                <Button Width="100" Height="100" Margin="5"  MouseDown="Image_MouseDown"  Tag="2">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -268,7 +265,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"   Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown"  Tag="3">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -279,7 +276,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"  Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="4">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -290,7 +287,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5" Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="5">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -301,7 +298,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5" Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="6">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -312,7 +309,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5" Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="7">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -323,7 +320,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"   Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown"  Tag="8">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -334,7 +331,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"   Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown"   Tag="9">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -345,7 +342,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"  Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="10">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -356,7 +353,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5" Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="11">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -367,7 +364,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"  Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="12">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -378,7 +375,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"   Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown"  Tag="13">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -389,7 +386,7 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <Button Width="100" Height="100" Margin="5"  Tag="2">
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" Tag="14">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
@@ -401,9 +398,9 @@
                                     </Button.Template>
                                 </Button>
 
-                                <!-- Diğer masa butonları için aynı şablonu kullanabilirsiniz. -->
 
-                                <Button Width="100" Height="100" Margin="5"  Tag="15">
+
+                                <Button Width="100" Height="100" Margin="5" MouseDown="Image_MouseDown" IsEnabled="True" Tag="15">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Grid>

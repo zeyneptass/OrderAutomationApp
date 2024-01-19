@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pbzpnlh8woQMiW2J9wjriOo9nigiLv1JktU1F0aoAArw7ASKuIZ23R9kBs6CSfigKTw8WtMTs1xxK/fbihbLdQ==",
+  "dgSpecHash": "dazotTP8Y5dTWxQv+hGESrxT0hpasBRCmi/TTF6B/wfh3q3omXgL72VrHO/y3fuSYbwaYmE5wOkDF4XKKiw1Qg==",
   "success": true,
   "projectFilePath": "C:\\Users\\zeyne\\OneDrive\\Masaüstü\\OOPLectures\\CafeAutomationApp\\ConsoleUI\\ConsoleUI.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "C:\\Users\\zeyne\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\zeyne\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\zeyne\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\zeyne\\.nuget\\packages\\serilog\\3.1.1\\serilog.3.1.1.nupkg.sha512",
     "C:\\Users\\zeyne\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\zeyne\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\zeyne\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

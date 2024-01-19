@@ -40,7 +40,7 @@ namespace Business.Concrete
 
         public List<Reservation> GetByTableId(int tableId)
         {
-            return (_reservationDal.GetAll(r => r.TableId == tableId).ToList());
+            return _reservationDal.GetAll(r => r.TableId == tableId).ToList();
         }
 
         public List<Reservation> GetDetails(string customerName, int tableId, DateTime date)
